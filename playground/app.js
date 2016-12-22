@@ -314,7 +314,8 @@ class App extends Component {
       liveValidate,
       validate,
       theme,
-      editor
+      editor,
+      transformErrors
     } = this.state;
 
     return (
@@ -360,6 +361,7 @@ class App extends Component {
               fields={{geo: GeoPosition}}
               validate={validate}
               onBlur={(id, value) => console.log(`Touched ${id} with value ${value}`)}
+              transformErrors={transformErrors}
               onError={log("errors")} />}
         </div>
       </div>
