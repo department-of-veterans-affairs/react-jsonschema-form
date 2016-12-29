@@ -17,6 +17,7 @@ export default class Form extends Component {
     noValidate: false,
     liveValidate: false,
     safeRenderCompletion: false,
+    noHtml5Validate: false
   }
 
   constructor(props) {
@@ -143,7 +144,8 @@ export default class Form extends Component {
       action,
       autocomplete,
       enctype,
-      acceptcharset
+      acceptcharset,
+      noHtml5Validate
     } = this.props;
 
     const {schema, uiSchema, formData, errorSchema, idSchema} = this.state;
@@ -155,6 +157,7 @@ export default class Form extends Component {
         id={id}
         name={name}
         method={method}
+        noValidate={noHtml5Validate}
         target={target}
         action={action}
         autoComplete={autocomplete}
@@ -211,5 +214,6 @@ if (process.env.NODE_ENV !== "production") {
     transformErrors: PropTypes.func,
     safeRenderCompletion: PropTypes.bool,
     formContext: PropTypes.object,
+    noHtml5Validate: PropTypes.bool,
   };
 }
