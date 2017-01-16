@@ -144,6 +144,12 @@ class ArrayField extends Component {
     };
   };
 
+  onItemBlur = (index) => {
+    return (path = []) => {
+      this.props.onBlur([index].concat(path));
+    };
+  }
+
   onSelectChange = (value) => {
     this.asyncSetState({items: value});
   };
@@ -169,11 +175,11 @@ class ArrayField extends Component {
       errorSchema,
       idSchema,
       name,
-      required,
+      requiredSchema,
       disabled,
       readonly,
       autofocus,
-      onBlur
+      touchedSchema
     } = this.props;
     const title = (schema.title === undefined) ? name : schema.title;
     const {items} = this.state;
@@ -189,7 +195,7 @@ class ArrayField extends Component {
           TitleField={TitleField}
           idSchema={idSchema}
           title={title}
-          required={required}/>
+          required={requiredSchema.$required}/>
         {schema.description ?
           <ArrayFieldDescription
             DescriptionField={DescriptionField}
@@ -210,7 +216,8 @@ class ArrayField extends Component {
               itemData: items[index],
               itemUiSchema: uiSchema.items,
               autofocus: autofocus && index === 0,
-              onBlur
+              itemTouched: typeof touchedSchema === "object" ? touchedSchema[index] : !!touchedSchema,
+              itemRequiredSchema: requiredSchema
             });
           })
         }</div>
@@ -245,7 +252,7 @@ class ArrayField extends Component {
   }
 
   renderFiles() {
-    const {schema, uiSchema, idSchema, name, disabled, readonly, autofocus, onBlur} = this.props;
+    const {schema, uiSchema, idSchema, name, disabled, readonly, autofocus} = this.props;
     const title = schema.title || name;
     const {items} = this.state;
     const {widgets} = this.props.registry;
@@ -257,7 +264,6 @@ class ArrayField extends Component {
         id={idSchema && idSchema.$id}
         multiple
         onChange={this.onSelectChange}
-        onBlur={onBlur}
         schema={schema}
         title={title}
         value={items}
@@ -274,11 +280,11 @@ class ArrayField extends Component {
       errorSchema,
       idSchema,
       name,
-      required,
+      requiredSchema,
       disabled,
       readonly,
       autofocus,
-      onBlur
+      touchedSchema
     } = this.props;
     const title = schema.title || name;
     let {items} = this.state;
@@ -303,7 +309,7 @@ class ArrayField extends Component {
           TitleField={TitleField}
           idSchema={idSchema}
           title={title}
-          required={required}/>
+          required={requiredSchema.$required}/>
         {schema.description ?
           <div className="field-description">{schema.description}</div> : null}
         <div className="row array-item-list">{
@@ -330,7 +336,8 @@ class ArrayField extends Component {
               itemIdSchema,
               itemErrorSchema,
               autofocus: autofocus && index === 0,
-              onBlur
+              itemTouched: typeof touchedSchema === "object" ? touchedSchema[index] : !!touchedSchema,
+              itemRequiredSchema: requiredSchema
             });
           })
         }</div>
@@ -354,7 +361,8 @@ class ArrayField extends Component {
     itemIdSchema,
     itemErrorSchema,
     autofocus,
-    onBlur
+    itemTouched,
+    itemRequiredSchema
   }) {
     const {SchemaField} = this.props.registry.fields;
     const {disabled, readonly, uiSchema} = this.props;
@@ -380,12 +388,13 @@ class ArrayField extends Component {
             formData={itemData}
             errorSchema={itemErrorSchema}
             idSchema={itemIdSchema}
-            required={this.isItemRequired(itemSchema)}
+            requiredSchema={itemRequiredSchema}
             onChange={this.onChangeForIndex(index)}
-            onBlur={onBlur}
+            onBlur={this.onItemBlur(index)}
             registry={this.props.registry}
             disabled={this.props.disabled}
             readonly={this.props.readonly}
+            touchedSchema={itemTouched}
             autofocus={autofocus}/>
         </div>
         {
@@ -449,7 +458,7 @@ if (process.env.NODE_ENV !== "production") {
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
     formData: PropTypes.array,
-    required: PropTypes.bool,
+    requiredSchema: PropTypes.object,
     disabled: PropTypes.bool,
     readonly: PropTypes.bool,
     autofocus: PropTypes.bool,

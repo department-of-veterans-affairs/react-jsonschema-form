@@ -13,10 +13,13 @@ import {
   shouldRender,
   toDateString,
   toIdSchema,
+  deepSet,
+  deepGet,
+  toRequiredSchema
 } from "../src/utils";
 
 
-describe("utils", () => {
+describe.only("utils", () => {
   describe("getDefaultFormState()", () => {
     describe("root default", () => {
       it("should map root schema default to form state, if any", () => {
@@ -176,20 +179,6 @@ describe("utils", () => {
         };
         expect(getDefaultFormState(schema, {}))
           .eql({level1: [1, 2, 3]});
-      });
-
-      it("should use first enum value when no default is specified", () => {
-        const schema = {
-          type: "object",
-          properties: {
-            foo: {
-              type: "string",
-              enum: ["a", "b", "c"],
-            }
-          }
-        };
-        expect(getDefaultFormState(schema, {}))
-          .eql({foo: "a"});
       });
 
       it("should map item defaults to fixed array default", () => {
@@ -706,6 +695,71 @@ describe("utils", () => {
       expect(deepEquals(() => {}, () => {})).eql(true);
       expect(deepEquals({foo(){}}, {foo(){}})).eql(true);
       expect(deepEquals({foo: {bar(){}}}, {foo: {bar(){}}})).eql(true);
+    });
+  });
+
+  describe("deepSet()", () => {
+    it("should set nested properties", () => {
+      const obj = {
+        level1: {
+          level2: {
+            field: "test"
+          }
+        }
+      };
+      expect(deepSet(["level1", "level2", "field"], "blah", obj).level1.level2.field).eql("blah"); 
+    });
+    it("should return value when path is empty", () => {
+      expect(deepSet([], true, {})).eql(true);
+      expect(deepSet([""], true, {})).eql(true);
+      expect(deepSet(undefined, true, {})).eql(true);
+    });
+  });
+  describe("deepGet()", () => {
+    const obj = {
+      level1: {
+        level2: {
+          field: "test"
+        }
+      }
+    };
+    it("should get nested properties", () => {
+      expect(deepGet(["level1", "level2", "field"], obj)).eql("test");
+    });
+    it("should return object when path is empty", () => {
+      expect(deepGet(undefined, obj)).eql(obj);
+      expect(deepGet([], obj)).eql(obj);
+      expect(deepGet([""], obj)).eql(obj);
+    });
+  });
+
+  describe("toRequiredSchema", () => {
+    it("should convert string field to required schema", () => {
+      const schema = {type: "string"};
+      expect(toRequiredSchema(schema)).eql({$required: false});
+    });
+    it("should convert string field to required schema and use func", () => {
+      const schema = {type: "string"};
+      const uiSchema = {"ui:required": () => true};
+      expect(toRequiredSchema(schema, {}, uiSchema)).eql({$required: true});
+    });
+    it("should convert object field to required schema", () => {
+      const schema = {type: "object", properties: {test: {type: "string"}}};
+      const uiSchema = {"ui:required": () => true};
+      expect(toRequiredSchema(schema, {}, uiSchema)).eql({test: {$required: false}});
+    });
+    it("should use required array in object field", () => {
+      const schema = {type: "object", required: ["test"], properties: {test: {type: "string"}}};
+      const uiSchema = {"ui:required": () => true};
+      expect(toRequiredSchema(schema, {}, uiSchema)).eql({test: {$required: true}});
+    });
+    it("should convert array field to required schema", () => {
+      const schema = {type: "array", items: {type: "string"}};
+      expect(toRequiredSchema(schema)).eql({$required: false});
+    });
+    it("should convert array field with object items to required schema", () => {
+      const schema = {type: "array", items: {type: "object", properties: {test: {type: "number"}}}};
+      expect(toRequiredSchema(schema)).eql({$required: false, test: {$required: false}});
     });
   });
 });

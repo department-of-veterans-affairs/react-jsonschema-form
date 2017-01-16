@@ -323,19 +323,12 @@ describe("ArrayField", () => {
       });
 
       it("should handle a blur event", () => {
-        const onBlur = sandbox.spy();
-        const {node} = createFormComponent({schema, onBlur});
+        const {comp, node} = createFormComponent({schema});
 
         const select = node.querySelector(".field select");
-        Simulate.blur(select, {
-          target: {options: [
-            {selected: true, value: "foo"},
-            {selected: true, value: "bar"},
-            {selected: false, value: "fuzz"},
-          ]}
-        });
+        Simulate.blur(select);
 
-        expect(onBlur.calledWith(select.id, ["foo", "bar"])).to.be.true;
+        expect(comp.state.touchedSchema).to.be.true;
       });
 
       it("should fill field with data", () => {

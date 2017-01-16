@@ -54,6 +54,7 @@ describe("Rendering performance optimizations", () => {
     const schema = {type: "array", items: {type: "string"}};
     const uiSchema = {};
     const registry = getDefaultRegistry();
+    const requiredSchema = {$required: false};
 
     it("should not render if next props are equivalent", () => {
       const {comp} = createComponent(ArrayField, {
@@ -61,7 +62,8 @@ describe("Rendering performance optimizations", () => {
         schema,
         uiSchema,
         onChange,
-        onBlur
+        onBlur,
+        requiredSchema
       });
       sandbox.stub(comp, "render").returns(<div/>);
 
@@ -78,7 +80,8 @@ describe("Rendering performance optimizations", () => {
         schema,
         formData,
         onChange,
-        onBlur
+        onBlur,
+        requiredSchema
       });
       sandbox.stub(comp, "render").returns(<div/>);
 
@@ -100,6 +103,7 @@ describe("Rendering performance optimizations", () => {
       }
     };
     const idSchema = {$id: "root", foo: {$id: "root_plop"}};
+    const requiredSchema = {foo: {$required: false}};
 
     it("should not render if next props are equivalent", () => {
       const {comp} = createComponent(ObjectField, {
@@ -108,7 +112,8 @@ describe("Rendering performance optimizations", () => {
         uiSchema,
         onChange,
         idSchema,
-        onBlur
+        onBlur,
+        requiredSchema
       });
       sandbox.stub(comp, "render").returns(<div/>);
 
@@ -126,7 +131,8 @@ describe("Rendering performance optimizations", () => {
         formData,
         onChange,
         idSchema,
-        onBlur
+        onBlur,
+        requiredSchema
       });
       sandbox.stub(comp, "render").returns(<div/>);
 

@@ -53,10 +53,7 @@ function SelectWidget({
       disabled={disabled}
       readOnly={readonly}
       autoFocus={autofocus}
-      onBlur={(event) => {
-        const newValue = getValue(event, multiple);
-        onBlur(id, processValue(schema, newValue));
-      }}
+      onBlur={() => onBlur()}
       onChange={(event) => {
         const newValue = getValue(event, multiple);
         onChange(processValue(schema, newValue));

@@ -36,6 +36,7 @@ class ObjectField extends Component {
     required: false,
     disabled: false,
     readonly: false,
+    touchedSchema: {}
   }
 
   constructor(props) {
@@ -65,12 +66,6 @@ class ObjectField extends Component {
     return shouldRender(this, nextProps, nextState);
   }
 
-  isRequired(name) {
-    const schema = this.props.schema;
-    return Array.isArray(schema.required) &&
-      schema.required.indexOf(name) !== -1;
-  }
-
   asyncSetState(state, options={validate: false}) {
     setState(this, state, () => {
       this.props.onChange(this.state, options);
@@ -83,6 +78,12 @@ class ObjectField extends Component {
     };
   };
 
+  onPropertyBlur = (name) => {
+    return (path = []) => {
+      this.props.onBlur([name].concat(path));
+    };
+  };
+
   render() {
     const {
       uiSchema,
@@ -92,7 +93,7 @@ class ObjectField extends Component {
       required,
       disabled,
       readonly,
-      onBlur
+      touchedSchema
     } = this.props;
     const {definitions, fields, formContext} = this.props.registry;
     const {SchemaField, TitleField, DescriptionField} = fields;
@@ -130,16 +131,17 @@ class ObjectField extends Component {
           return (
             <SchemaField key={index}
               name={name}
-              required={this.isRequired(name)}
+              requiredSchema={this.props.requiredSchema[name]}
               schema={schema.properties[name]}
               uiSchema={uiSchema[name]}
               errorSchema={errorSchema[name]}
               idSchema={idSchema[name]}
               formData={this.state[name]}
               onChange={this.onPropertyChange(name)}
-              onBlur={onBlur}
+              onBlur={this.onPropertyBlur(name)}
               registry={this.props.registry}
               disabled={disabled}
+              touchedSchema={typeof touchedSchema === "object" ? touchedSchema[name] : !!touchedSchema}
               readonly={readonly}/>
           );
         })
@@ -156,9 +158,10 @@ if (process.env.NODE_ENV !== "production") {
     idSchema: PropTypes.object,
     onChange: PropTypes.func.isRequired,
     formData: PropTypes.object,
-    required: PropTypes.bool,
+    requiredSchema: PropTypes.object,
     disabled: PropTypes.bool,
     readonly: PropTypes.bool,
+    touchedSchema: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
     registry: PropTypes.shape({
       widgets: PropTypes.objectOf(PropTypes.oneOfType([
         PropTypes.func,

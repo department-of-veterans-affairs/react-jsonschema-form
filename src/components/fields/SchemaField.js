@@ -129,7 +129,7 @@ DefaultTemplate.defaultProps = {
 };
 
 function SchemaField(props) {
-  const {uiSchema, errorSchema, idSchema, name, required, registry} = props;
+  const {uiSchema, errorSchema, idSchema, name, requiredSchema, registry, touchedSchema} = props;
   const {definitions, fields, formContext, FieldTemplate = DefaultTemplate} = registry;
   const schema = retrieveSchema(props.schema, definitions);
   const FieldComponent = getFieldComponent(schema, uiSchema, fields);
@@ -196,7 +196,7 @@ function SchemaField(props) {
     id,
     label,
     hidden,
-    required,
+    required: requiredSchema.$required,
     readonly,
     displayLabel,
     classNames,
@@ -204,6 +204,7 @@ function SchemaField(props) {
     fields,
     schema,
     uiSchema,
+    touchedSchema
   };
 
   return <FieldTemplate {...fieldProps}>{field}</FieldTemplate>;

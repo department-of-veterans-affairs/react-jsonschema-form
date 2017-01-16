@@ -16,7 +16,7 @@ function StringField(props) {
     uiSchema,
     idSchema,
     formData,
-    required,
+    requiredSchema,
     disabled,
     readonly,
     autofocus,
@@ -38,8 +38,8 @@ function StringField(props) {
     label={title === undefined ? name : title}
     value={defaultFieldValue(formData, schema)}
     onChange={onChange}
-    onBlur={onBlur}
-    required={required}
+    onBlur={() => onBlur()}
+    required={requiredSchema.$required}
     disabled={disabled}
     readonly={readonly}
     formContext={formContext}
@@ -69,7 +69,7 @@ if (process.env.NODE_ENV !== "production") {
       formContext: PropTypes.object.isRequired,
     }),
     formContext: PropTypes.object.isRequired,
-    required: PropTypes.bool,
+    requiredSchema: PropTypes.object,
     disabled: PropTypes.bool,
     readonly: PropTypes.bool,
     autofocus: PropTypes.bool,

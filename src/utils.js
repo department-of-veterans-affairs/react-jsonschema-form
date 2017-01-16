@@ -513,3 +513,90 @@ export function rangeSpec(schema) {
   }
   return spec;
 }
+
+export function deepSet(path, val, obj) {
+  if (!Array.isArray(path) || path.length === 0 || !path[0]) {
+    return val;
+  }
+
+  if (path.length === 1) {
+    return Object.assign({}, obj, {[path]: val});
+  }
+
+  const [nextProp, ...rest] = path;
+  return Object.assign({}, obj, {[nextProp]: deepSet(rest, val, obj ? obj[nextProp] : {})});
+}
+
+export function deepGet(path, obj) {
+  if (!Array.isArray(path) || path.length === 0 || !path[0]) {
+    return obj;
+  }
+
+  if (path.length === 1 && typeof obj === "object") {
+    return obj[path];
+  }
+
+  const [nextProp, ...rest] = path;
+
+  if (typeof obj[nextProp] === "object") {
+    return deepGet(rest, obj[nextProp]);
+  }
+
+  return undefined;
+}
+
+export function toRequiredSchema(rawSchema, requiredSchema = {$required: false}, uiSchema, definitions, formData, formContext) {
+  const schema = retrieveSchema(rawSchema, definitions);
+
+  if (schema.type === "object") {
+    return Object.keys(schema.properties).reduce((newSchema, nextProp) => {
+      const inRequiredArray = schema.required && schema.required.some(f => f === nextProp);
+
+      let schemaToUpdate = newSchema;
+      if (inRequiredArray && !newSchema[nextProp]) {
+        schemaToUpdate = Object.assign({}, schemaToUpdate, {[nextProp]: {$required: true}});
+      }
+
+      const nextSchema = toRequiredSchema(
+        schema.properties[nextProp],
+        schemaToUpdate[nextProp],
+        uiSchema ? uiSchema[nextProp] : undefined,
+        definitions,
+        formData,
+        formContext
+      );
+
+      if (nextSchema === schemaToUpdate[nextProp]) {
+        return schemaToUpdate;
+      } else {
+        return Object.assign({}, schemaToUpdate, {[nextProp]: nextSchema});
+      }
+    }, requiredSchema || {$required: false});
+
+  } else if (schema.type === "array") {
+    return toRequiredSchema(
+      schema.items,
+      requiredSchema,
+      uiSchema ? uiSchema.items : undefined,
+      definitions,
+      formData,
+      formContext
+    );
+  }
+
+  if (uiSchema) {
+    const required = uiSchema["ui:required"];
+    if (typeof required === "function") {
+      const isRequired = required(formData, formContext);
+
+      if (isRequired !== requiredSchema.$required) {
+        return {
+          $required: isRequired
+        };
+      }
+    }
+  }
+
+  return requiredSchema;
+}
+
