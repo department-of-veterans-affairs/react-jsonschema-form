@@ -515,7 +515,7 @@ export function rangeSpec(schema) {
 }
 
 export function deepSet(path, val, obj) {
-  if (!Array.isArray(path) || path.length === 0 || !path[0]) {
+  if (!Array.isArray(path) || path.length === 0 || path[0] === "" || typeof path[0] === "undefined") {
     return val;
   }
 
@@ -528,7 +528,7 @@ export function deepSet(path, val, obj) {
 }
 
 export function deepGet(path, obj) {
-  if (!Array.isArray(path) || path.length === 0 || !path[0]) {
+  if (!Array.isArray(path) || path.length === 0 || path[0] === "" || typeof path[0] === "undefined") {
     return obj;
   }
 

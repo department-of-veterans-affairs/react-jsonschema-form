@@ -19,7 +19,7 @@ import {
 } from "../src/utils";
 
 
-describe.only("utils", () => {
+describe("utils", () => {
   describe("getDefaultFormState()", () => {
     describe("root default", () => {
       it("should map root schema default to form state, if any", () => {
