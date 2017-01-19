@@ -175,7 +175,7 @@ class ArrayField extends Component {
       errorSchema,
       idSchema,
       name,
-      requiredSchema,
+      required,
       disabled,
       readonly,
       autofocus,
@@ -195,7 +195,7 @@ class ArrayField extends Component {
           TitleField={TitleField}
           idSchema={idSchema}
           title={title}
-          required={requiredSchema.$required}/>
+          required={required}/>
         {schema.description ?
           <ArrayFieldDescription
             DescriptionField={DescriptionField}
@@ -216,8 +216,7 @@ class ArrayField extends Component {
               itemData: items[index],
               itemUiSchema: uiSchema.items,
               autofocus: autofocus && index === 0,
-              itemTouched: typeof touchedSchema === "object" ? touchedSchema[index] : !!touchedSchema,
-              itemRequiredSchema: requiredSchema
+              itemTouched: typeof touchedSchema === "object" ? touchedSchema[index] : !!touchedSchema
             });
           })
         }</div>
@@ -280,7 +279,7 @@ class ArrayField extends Component {
       errorSchema,
       idSchema,
       name,
-      requiredSchema,
+      required,
       disabled,
       readonly,
       autofocus,
@@ -309,7 +308,7 @@ class ArrayField extends Component {
           TitleField={TitleField}
           idSchema={idSchema}
           title={title}
-          required={requiredSchema.$required}/>
+          required={required}/>
         {schema.description ?
           <div className="field-description">{schema.description}</div> : null}
         <div className="row array-item-list">{
@@ -336,8 +335,7 @@ class ArrayField extends Component {
               itemIdSchema,
               itemErrorSchema,
               autofocus: autofocus && index === 0,
-              itemTouched: typeof touchedSchema === "object" ? touchedSchema[index] : !!touchedSchema,
-              itemRequiredSchema: requiredSchema
+              itemTouched: typeof touchedSchema === "object" ? touchedSchema[index] : !!touchedSchema
             });
           })
         }</div>
@@ -388,7 +386,7 @@ class ArrayField extends Component {
             formData={itemData}
             errorSchema={itemErrorSchema}
             idSchema={itemIdSchema}
-            requiredSchema={itemRequiredSchema}
+            required={this.isItemRequired(itemSchema)}
             onChange={this.onChangeForIndex(index)}
             onBlur={this.onItemBlur(index)}
             registry={this.props.registry}
@@ -458,7 +456,7 @@ if (process.env.NODE_ENV !== "production") {
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
     formData: PropTypes.array,
-    requiredSchema: PropTypes.object,
+    required: PropTypes.bool,
     disabled: PropTypes.bool,
     readonly: PropTypes.bool,
     autofocus: PropTypes.bool,

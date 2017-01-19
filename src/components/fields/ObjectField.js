@@ -66,6 +66,12 @@ class ObjectField extends Component {
     return shouldRender(this, nextProps, nextState);
   }
 
+  isRequired(name) {		
+    const schema = this.props.schema;		
+    return Array.isArray(schema.required) &&		
+      schema.required.indexOf(name) !== -1;		
+  }
+
   asyncSetState(state, options={validate: false}) {
     setState(this, state, () => {
       this.props.onChange(this.state, options);
@@ -131,7 +137,7 @@ class ObjectField extends Component {
           return (
             <SchemaField key={index}
               name={name}
-              requiredSchema={this.props.requiredSchema[name]}
+              required={this.isRequired(name)}
               schema={schema.properties[name]}
               uiSchema={uiSchema[name]}
               errorSchema={errorSchema[name]}
@@ -158,7 +164,7 @@ if (process.env.NODE_ENV !== "production") {
     idSchema: PropTypes.object,
     onChange: PropTypes.func.isRequired,
     formData: PropTypes.object,
-    requiredSchema: PropTypes.object,
+    required: PropTypes.bool,
     disabled: PropTypes.bool,
     readonly: PropTypes.bool,
     touchedSchema: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),

@@ -9,7 +9,6 @@ import {
   getDefaultRegistry,
   deepSet,
   deepGet,
-  toRequiredSchema
 } from "../utils";
 import validateFormData from "../validate";
 
@@ -48,7 +47,6 @@ export default class Form extends Component {
       };
     const idSchema = toIdSchema(schema, uiSchema["ui:rootFieldId"], definitions);
     const touchedSchema = state.touchedSchema || {};
-    const requiredSchema = toRequiredSchema(schema, state.requiredSchema, uiSchema, definitions, formData, this.props.formContext);
     return {
       status: "initial",
       schema,
@@ -59,7 +57,6 @@ export default class Form extends Component {
       errors,
       errorSchema,
       touchedSchema,
-      requiredSchema
     };
   }
 
@@ -84,11 +81,7 @@ export default class Form extends Component {
 
   onChange = (formData, options={validate: false}) => {
     const mustValidate = !this.props.noValidate && (this.props.liveValidate || options.validate);
-    let state = {
-      status: "editing",
-      formData, 
-      requiredSchema: toRequiredSchema(this.props.schema, this.state.requiredSchema, this.props.uiSchema, this.props.schema.definitions, formData, this.props.formContext)
-    };
+    let state = {status: "editing", formData};
     if (mustValidate) {
       const {errors, errorSchema} = this.validate(formData);
       state = {...state, errors, errorSchema};
@@ -160,7 +153,7 @@ export default class Form extends Component {
       noHtml5Validate
     } = this.props;
 
-    const {schema, uiSchema, formData, errorSchema, idSchema, touchedSchema, requiredSchema} = this.state;
+    const {schema, uiSchema, formData, errorSchema, idSchema, touchedSchema} = this.state;
     const registry = this.getRegistry();
     const _SchemaField = registry.fields.SchemaField;
 
@@ -186,7 +179,6 @@ export default class Form extends Component {
           onChange={this.onChange}
           onBlur={this.onBlur}
           touchedSchema={touchedSchema}
-          requiredSchema={requiredSchema}
           registry={registry}
           safeRenderCompletion={safeRenderCompletion}/>
         { children ? children :

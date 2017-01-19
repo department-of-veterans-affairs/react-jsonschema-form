@@ -732,34 +732,4 @@ describe("utils", () => {
       expect(deepGet([""], obj)).eql(obj);
     });
   });
-
-  describe("toRequiredSchema", () => {
-    it("should convert string field to required schema", () => {
-      const schema = {type: "string"};
-      expect(toRequiredSchema(schema)).eql({$required: false});
-    });
-    it("should convert string field to required schema and use func", () => {
-      const schema = {type: "string"};
-      const uiSchema = {"ui:required": () => true};
-      expect(toRequiredSchema(schema, {}, uiSchema)).eql({$required: true});
-    });
-    it("should convert object field to required schema", () => {
-      const schema = {type: "object", properties: {test: {type: "string"}}};
-      const uiSchema = {"ui:required": () => true};
-      expect(toRequiredSchema(schema, {}, uiSchema)).eql({test: {$required: false}});
-    });
-    it("should use required array in object field", () => {
-      const schema = {type: "object", required: ["test"], properties: {test: {type: "string"}}};
-      const uiSchema = {"ui:required": () => true};
-      expect(toRequiredSchema(schema, {}, uiSchema)).eql({test: {$required: true}});
-    });
-    it("should convert array field to required schema", () => {
-      const schema = {type: "array", items: {type: "string"}};
-      expect(toRequiredSchema(schema)).eql({$required: false});
-    });
-    it("should convert array field with object items to required schema", () => {
-      const schema = {type: "array", items: {type: "object", properties: {test: {type: "number"}}}};
-      expect(toRequiredSchema(schema)).eql({$required: false, test: {$required: false}});
-    });
-  });
 });
