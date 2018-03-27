@@ -1,3 +1,4 @@
+/* This file has been modified from the original forked source code */
 import React from "react";
 import {expect} from "chai";
 import {Simulate} from "react-addons-test-utils";

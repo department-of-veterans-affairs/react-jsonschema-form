@@ -1,3 +1,4 @@
+/* This file has been modified from the original forked source code */
 /* Utils for tests. */
 
 import React from "react";

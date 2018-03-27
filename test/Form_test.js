@@ -1,3 +1,4 @@
+/* This file has been modified from the original forked source code */
 import {expect} from "chai";
 import sinon from "sinon";
 import React from "react";
