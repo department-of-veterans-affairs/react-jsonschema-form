@@ -8,7 +8,9 @@ import {findDOMNode, render} from "react-dom";
 
 import Form from "../src";
 
-class DataState extends React.Component {
+// Since we're not setting the state in onChange, we need to
+// handle it in an external component
+class FormDataStateWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {formData: props.formProps.formData};
@@ -38,7 +40,7 @@ export function createComponent(Component, props) {
 }
 
 export function createFormComponent(props) {
-  const {comp} = createComponent(DataState, {formProps: props});
+  const {comp} = createComponent(FormDataStateWrapper, {formProps: props});
   const formComp = findRenderedComponentWithType(comp, Form);
   const formNode = findDOMNode(formComp);
   return {comp: formComp, node: formNode};
