@@ -135,6 +135,20 @@ describe("StringField", () => {
       expect(node.querySelector("#custom"))
         .to.exist;
     });
+
+    it("should render customized memoized TextWidget", () => {
+      const {node} = createFormComponent({
+        schema: {
+          type: "string",
+        },
+        widgets: {
+          TextWidget: React.memo(CustomWidget)
+        }
+      });
+
+      expect(node.querySelector("#custom"))
+        .to.exist;
+    });
   });
 
   describe("SelectWidget", () => {
