@@ -1,4 +1,6 @@
+/* This file has been modified from the original forked source code */
 import React from "react";
+import * as ReactIs from "react-is";
 import "setimmediate";
 
 
@@ -77,7 +79,7 @@ export function getWidget(schema, widget, registeredWidgets={}) {
     return Widget.MergedWidget;
   }
 
-  if (typeof widget === "function") {
+  if (typeof widget !== "string" && ReactIs.isValidElementType(widget)) {
     return mergeOptions(widget);
   }
 

@@ -1,7 +1,7 @@
 /* This file has been modified from the original forked source code */
 import React from "react";
 import {expect} from "chai";
-import {Simulate} from "react-addons-test-utils";
+import {Simulate} from "react-dom/test-utils";
 
 import {parseDateString, toDateString} from "../src/utils";
 import {createFormComponent, createSandbox} from "./test_utils";
