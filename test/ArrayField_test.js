@@ -3,7 +3,6 @@ import React from "react";
 
 import {expect} from "chai";
 import {Simulate} from "react-dom/test-utils";
-import {findDOMNode} from "react-dom";
 
 import {createFormComponent, createSandbox} from "./test_utils";
 
