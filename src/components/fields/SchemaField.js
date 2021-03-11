@@ -23,13 +23,15 @@ const COMPONENT_TYPES = {
 
 function getFieldComponent(schema, uiSchema, fields) {
   const field = uiSchema["ui:field"];
+
+  if (typeof field !== "string" && ReactIs.isValidElementType(field)) {
+    return field;
+  }
+
   if (typeof field === "string" && field in fields) {
     return fields[field];
   }
 
-  if (ReactIs.isValidElementType(field)) {
-    return field;
-  }
   const componentName = COMPONENT_TYPES[schema.type];
   return componentName in fields ? fields[componentName] : UnsupportedField;
 }

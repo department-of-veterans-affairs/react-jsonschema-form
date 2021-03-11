@@ -158,7 +158,7 @@ export function getUiOptions(uiSchema) {
   return Object.keys(uiSchema).filter(key => key.indexOf("ui:") === 0).reduce((options, key) => {
     const value = uiSchema[key];
 
-    if (key === "ui:widget" && isObject(value)) {
+    if (key === "ui:widget" && isObject(value) && !ReactIs.isValidElementType(value)) {
       console.warn("Setting options via ui:widget object is deprecated, use ui:options instead");
       return {...options, ...(value.options || {}), widget: value.component};
     }
