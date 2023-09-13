@@ -7,7 +7,7 @@ name: CodeQL
     branches:
       - master
   schedule:
-    - cron: 4 14 * * 1
+    - cron: 44 1 * * 2
   workflow_dispatch: null
 jobs:
   analyze:
