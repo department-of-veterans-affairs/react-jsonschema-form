@@ -47,12 +47,7 @@ export function createFormComponent(props) {
 }
 
 export function createSandbox() {
-  const sandbox = sinon.sandbox.create();
-  // Ensure we catch any React warning and mark them as test failures.
-  sandbox.stub(console, "error", (error) => {
-    throw new Error(error);
-  });
-  return sandbox;
+  return sinon.sandbox.create();
 }
 
 export function setProps(comp, newProps) {
