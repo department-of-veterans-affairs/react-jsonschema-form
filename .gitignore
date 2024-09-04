@@ -4,3 +4,6 @@ build
 dist
 lib
 package-lock.json
+yarn.lock
+.tool-versions
+.vscode/
