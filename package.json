@@ -23,7 +23,7 @@
   "engineStrict": false,
   "engines": {
     "npm": "^2.14.7",
-    "node": ">=6"
+    "node": ">=14"
   },
   "peerDependencies": {
     "react": "*"
@@ -62,7 +62,7 @@
     "jsdom": "^8.3.0",
     "mocha": "^2.5.3",
     "react": "^16.14.0",
-    "react-codemirror": "^0.2.3",
+    "react-codemirror2": "^8.0.0",
     "react-dom": "^16.14.0",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
