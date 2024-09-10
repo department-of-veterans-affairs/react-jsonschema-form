@@ -2,7 +2,7 @@ import React from "react";
 import {expect} from "chai";
 import {Simulate} from "react-dom/test-utils";
 
-import {createFormComponent, createSandbox} from "./test_utils";
+import {createFormComponent, createSandbox, createSandboxUnstrict} from "./test_utils";
 import {getDefaultRegistry} from "../src/utils";
 
 import SchemaField from "../src/components/fields/SchemaField";
@@ -238,6 +238,12 @@ describe("SchemaField", () => {
   });
 
   describe("errors", () => {
+    
+    beforeEach(() => {
+      sandbox.restore();
+      sandbox = createSandboxUnstrict();
+    });
+    
     const schema = {
       type: "object",
       properties: {
@@ -258,17 +264,9 @@ describe("SchemaField", () => {
       return errors;
     }
 
-    function submit(node) {
-      try {
-        Simulate.submit(node);
-      } catch (e) {
-        // Silencing error thrown as failure is expected here
-      }
-    }
-
     it("should render it's own errors", () => {
       const {node} = createFormComponent({schema, uiSchema, validate});
-      submit(node);
+      Simulate.submit(node);
 
       const matches = node.querySelectorAll("form > .form-group > div > .error-detail .text-danger");
       expect(matches).to.have.length.of(1);
@@ -277,7 +275,7 @@ describe("SchemaField", () => {
 
     it("should pass errors to child component", () => {
       const {node} = createFormComponent({schema, uiSchema, validate});
-      submit(node);
+      Simulate.submit(node);
 
       const matches = node.querySelectorAll("form .form-group .form-group .text-danger");
       expect(matches).to.have.length.of(1);
