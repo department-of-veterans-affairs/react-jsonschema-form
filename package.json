@@ -71,7 +71,7 @@
     "sinon": "^1.17.7",
     "style-loader": "^0.13.2",
     "toctoc": "^0.2.4",
-    "webpack": "^1.15.0",
+    "webpack": "^2.7.0",
     "webpack-dev-middleware": "^1.12.2",
     "webpack-hot-middleware": "^2.26.1"
   },
