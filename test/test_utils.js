@@ -55,6 +55,12 @@ export function createSandbox() {
   return sandbox;
 }
 
+export function createSandboxUnstrict() {  
+  // this allows console errors without failing the test
+  // for testing validations
+  return sinon.sandbox.create();
+}
+
 export function setProps(comp, newProps) {
   const node = findDOMNode(comp);
   render(
