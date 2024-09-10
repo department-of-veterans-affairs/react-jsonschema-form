@@ -14,13 +14,13 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin()
   ],
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
-        loader: "babel",
+        loader: "babel-loader",
         include: [
           path.join(__dirname, "src"),
           path.join(__dirname, "playground"),
@@ -29,7 +29,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: "style!css",
+        loader: ["style-loader", "css-loader"],
         include: [
           path.join(__dirname, "css"),
           path.join(__dirname, "playground"),
