@@ -150,9 +150,9 @@ describe("StringField", () => {
         .to.exist;
     });
     it("should create and set autocomplete attribute", () => {
-      const { node } = createFormComponent({
-        schema: { type: "string" },
-        uiSchema: { "ui:autocomplete": "family-name" },
+      const {node} = createFormComponent({
+        schema: {type: "string"},
+        uiSchema: {"ui:autocomplete": "family-name"},
         formData: undefined,
       });
 

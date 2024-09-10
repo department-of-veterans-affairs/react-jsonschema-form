@@ -1165,7 +1165,7 @@ describe("Form", () => {
 
       expect(node.querySelector("input#something_else")).not.to.be.null;
       expect(node.querySelector("input#surprise")).not.to.be.null;
-    })
+    });
   });
 
   describe("Attributes", () => {

@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 import React, {Component} from "react";
 
-import {dataURItoBlob, shouldRender, setState} from "../../utils";
+import {dataURItoBlob, shouldRender} from "../../utils";
 
 
 function addNameToDataURL(dataURL, name) {

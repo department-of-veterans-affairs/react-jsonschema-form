@@ -514,7 +514,7 @@ describe("ArrayField", () => {
           expect(comp.state.formData).eql([
             "data:text/plain;name=file1.txt;base64,x=",
             "data:text/plain;name=file2.txt;base64,x=",
-          ])
+          ]);
         });
     });
 
