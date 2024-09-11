@@ -1,8 +1,8 @@
 var path = require("path");
 var webpack = require("webpack");
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
+  mode: "production",
   entry: "./playground/app",
   output: {
     path: path.join(__dirname, "build"),
@@ -10,7 +10,6 @@ module.exports = {
     publicPath: "/static/"
   },
   plugins: [
-    new ExtractTextPlugin("styles.css", {allChunks: true}),
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify("production")
@@ -18,10 +17,10 @@ module.exports = {
     })
   ],
   resolve: {
-    extensions: ["", ".js", ".jsx", ".css"]
+    extensions: [".js", ".jsx", ".css"]
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         loader: "babel-loader",
@@ -33,7 +32,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract("css-loader"),
+        loader: "css-loader",
         include: [
           path.join(__dirname, "css"),
           path.join(__dirname, "playground"),
