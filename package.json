@@ -12,8 +12,8 @@
     "publish-to-gh-pages": "npm run build:playground && gh-pages -d build",
     "publish-to-npm": "npm run build:readme && npm run dist && npm publish",
     "start": "node devServer.js",
-    "tdd": "cross-env NODE_ENV=test  mocha --compilers js:babel-register --watch --require ./test/setup-jsdom.js test/**/*_test.js",
-    "test": " cross-env NODE_ENV=test   mocha --compilers js:babel-register --require ./test/setup-jsdom.js test/**/*_test.js"
+    "tdd": "cross-env NODE_ENV=test  mocha --require babel-register --watch --require ./test/setup-jsdom.js test/**/*_test.js",
+    "test": " cross-env NODE_ENV=test   mocha --require babel-register --require ./test/setup-jsdom.js test/**/*_test.js"
   },
   "main": "lib/index.js",
   "files": [
@@ -59,7 +59,7 @@
     "gh-pages": "^5.0.0",
     "html": "0.0.10",
     "jsdom": "^8.5.0",
-    "mocha": "^2.5.3",
+    "mocha": "^10.7.3",
     "react": "^16.14.0",
     "react-codemirror2": "^8.0.0",
     "react-dom": "^16.14.0",
