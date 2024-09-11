@@ -14,7 +14,6 @@ const app = express();
 
 app.use(require("webpack-dev-middleware")(compiler, {
   publicPath: webpackConfig.output.publicPath,
-  noInfo: true
 }));
 
 app.use(require("webpack-hot-middleware")(compiler));
