@@ -67,7 +67,7 @@ describe("ArrayFieldTemplate", () => {
 
       it("should render one child for each array item", () => {
         expect(node.querySelectorAll(".custom-array-item"))
-         .to.have.length.of(formData.length);
+          .to.have.length.of(formData.length);
       });
 
       it("should render text input for each array item", () => {

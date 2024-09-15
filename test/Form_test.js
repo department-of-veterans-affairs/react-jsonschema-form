@@ -858,7 +858,7 @@ describe("Form", () => {
         schema: {
           type: "string",
           minLength: 8,
-          pattern: "\d+",
+          pattern: "\d+", //eslint-disable-line no-useless-escape
         },
         formData: "short"
       };
@@ -868,7 +868,7 @@ describe("Form", () => {
         expect(comp.state.errorSchema).eql({
           __errors: [
             "does not meet minimum length of 8",
-            "does not match pattern \"\d+\""
+            "does not match pattern \"\d+\"" //eslint-disable-line no-useless-escape
           ]
         });
       });
@@ -881,7 +881,7 @@ describe("Form", () => {
 
         expect(errors).eql([
           "does not meet minimum length of 8",
-          "does not match pattern \"\d+\""
+          "does not match pattern \"\d+\"" //eslint-disable-line no-useless-escape
         ]);
       });
     });

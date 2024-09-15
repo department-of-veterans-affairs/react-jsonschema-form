@@ -26,7 +26,7 @@ function toErrorSchema(errors) {
     const {property, message} = error;
     const path = toPath(property);
     let parent = errorSchema;
-    for (const segment of path.slice(1)) {
+    for (const segment of path.slice(1)) { //eslint-disable-line no-unused-vars
       if (!(segment in parent)) {
         parent[segment] = {};
       }

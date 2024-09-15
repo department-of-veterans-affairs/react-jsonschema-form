@@ -92,7 +92,7 @@ describe("BooleanField", () => {
     }, formData: true, uiSchema: {"ui:widget": "radio"}});
 
     const labels = [].map.call(node.querySelectorAll(".field-radio-group label"),
-                               label => label.textContent);
+      label => label.textContent);
     expect(labels).eql(["Yes", "No"]);
   });
 
@@ -119,7 +119,7 @@ describe("BooleanField", () => {
     }, formData: true, uiSchema: {"ui:widget": "select"}});
 
     const labels = [].map.call(node.querySelectorAll(".field option"),
-                               label => label.textContent);
+      label => label.textContent);
     expect(labels).eql(["", "Yes", "No"]);
   });
 

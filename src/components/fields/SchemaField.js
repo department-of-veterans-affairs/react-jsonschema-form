@@ -193,9 +193,10 @@ function SchemaField(props) {
   ].join(" ").trim();
 
   const fieldProps = {
-    description: <DescriptionField id={id + "__description"}
-                                   description={description}
-                                   formContext={formContext}/>,
+    description: 
+      <DescriptionField id={id + "__description"}
+        description={description}
+        formContext={formContext}/>,
     rawDescription: description,
     help: <Help help={help}/>,
     rawHelp: typeof help === "string" ? help : undefined,
