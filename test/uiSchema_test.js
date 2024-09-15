@@ -2,9 +2,9 @@
 import {expect} from "chai";
 import React from "react";
 import {Simulate} from "react-dom/test-utils";
-
 import {createFormComponent, createSandbox} from "./test_utils";
 
+const {JSDOM} = require("jsdom");
 
 describe("uiSchema", () => {
   let sandbox;
@@ -338,95 +338,107 @@ describe("uiSchema", () => {
   });
 
   describe("ui:focus", () => {
-    const shouldFocus = (schema, uiSchema, selector = "input", formData) => {
+    let window;
+    let dom;
+    let div;
+
+    beforeEach(() => {
+      dom = new JSDOM("<!doctype html><html><body></body></html>");
+      window = dom.window;
+      div = window.document.createElement("div");
+      window.document.body.appendChild(div);
+    });
+
+    const shouldFocus = (schema, uiSchema, el, selector = "input", formData) => {
       const props = {schema, uiSchema};
       if (typeof formData !== "undefined") {
         props.formData = formData;
       }
 
-      const {node} = createFormComponent(props);
-      expect(node.querySelector(selector)).eql(document.activeElement);
+      const {node} = createFormComponent(props, el);
+      expect(node.querySelector(selector)).eql(window.document.activeElement);
     };
 
     describe("number", () => {
       it("should focus on integer input", () => {
-        shouldFocus({type: "integer"}, {"ui:autofocus": true});
+        shouldFocus({type: "integer"}, {"ui:autofocus": true}, div);
       });
 
       it("should focus on integer input, updown widget", () => {
-        shouldFocus({type: "integer"}, {"ui:widget": "updown", "ui:autofocus": true});
+        shouldFocus({type: "integer"}, {"ui:widget": "updown", "ui:autofocus": true}, div);
       });
 
       it("should focus on integer input, range widget", () => {
-        shouldFocus({type: "integer"}, {"ui:widget": "range", "ui:autofocus": true});
+        shouldFocus({type: "integer"}, {"ui:widget": "range", "ui:autofocus": true}, div);
       });
 
       it("should focus on integer enum input", () => {
-        shouldFocus({type: "integer", enum: [1, 2, 3]}, {"ui:autofocus": true}, "select");
+        shouldFocus({type: "integer", enum: [1, 2, 3]}, {"ui:autofocus": true}, div, "select");
       });
     });
 
     describe("string", () => {
       it("should focus on text input", () => {
-        shouldFocus({type: "string"}, {"ui:autofocus": true});
+        shouldFocus({type: "string"}, {"ui:autofocus": true}, div);
       });
 
       it("should focus on textarea", () => {
-        shouldFocus({type: "string"}, {"ui:widget": "textarea", "ui:autofocus": true}, "textarea");
+        shouldFocus({type: "string"}, {"ui:widget": "textarea", "ui:autofocus": true}, div, "textarea");
       });
 
       it("should focus on password input", () => {
-        shouldFocus({type: "string"}, {"ui:widget": "password", "ui:autofocus": true});
+        shouldFocus({type: "string"}, {"ui:widget": "password", "ui:autofocus": true}, div);
       });
 
       it("should focus on color input", () => {
-        shouldFocus({type: "string"}, {"ui:widget": "color", "ui:autofocus": true});
+        shouldFocus({type: "string"}, {"ui:widget": "color", "ui:autofocus": true}, div);
       });
 
       it("should focus on email input", () => {
-        shouldFocus({type: "string", format: "email"}, {"ui:autofocus": true});
+        shouldFocus({type: "string", format: "email"}, {"ui:autofocus": true}, div);
       });
 
       it("should focus on uri input", () => {
-        shouldFocus({type: "string", format: "uri"}, {"ui:autofocus": true});
+        shouldFocus({type: "string", format: "uri"}, {"ui:autofocus": true}, div);
       });
 
       it("should focus on data-url input", () => {
-        shouldFocus({type: "string", format: "data-url"}, {"ui:autofocus": true});
+        shouldFocus({type: "string", format: "data-url"}, {"ui:autofocus": true}, div);
       });
     });
 
     describe("object", () => {
       it("should focus on date input", () => {
-        shouldFocus({type: "string", format: "date"}, {"ui:autofocus": true});
+        shouldFocus({type: "string", format: "date"}, {"ui:autofocus": true}, div);
       });
 
       it("should focus on date-time input", () => {
-        shouldFocus({type: "string", format: "date-time"}, {"ui:autofocus": true});
+        shouldFocus({type: "string", format: "date-time"}, {"ui:autofocus": true}, div);
       });
 
       it("should focus on alt-date input", () => {
-        shouldFocus({type: "string", format: "date"}, {"ui:widget": "alt-date",  "ui:autofocus": true}, "select");
+        shouldFocus({type: "string", format: "date"}, {"ui:widget": "alt-date",  "ui:autofocus": true}, div, "select");
       });
 
       it("should focus on alt-date-time input", () => {
-        shouldFocus({type: "string", format: "date-time"}, {"ui:widget": "alt-datetime",  "ui:autofocus": true}, "select");
+        shouldFocus({type: "string", format: "date-time"}, {"ui:widget": "alt-datetime",  "ui:autofocus": true}, div, "select");
       });
     });
 
     describe("array", () => {
       it("should focus on multiple files input", () => {
-        shouldFocus({type: "array", items: {type: "string", format: "data-url"}}, {"ui:autofocus": true});
+        shouldFocus({type: "array", items: {type: "string", format: "data-url"}}, {"ui:autofocus": true}, div);
       });
 
       it("should focus on first item of a list of strings", () => {
-        shouldFocus({type: "array", items: {type: "string", default: "foo"}}, {"ui:autofocus": true}, "input", ["foo", "bar"]);
+        shouldFocus({type: "array", items: {type: "string", default: "foo"}}, {"ui:autofocus": true}, div, "input", ["foo", "bar"]);
       });
 
       it("should focus on first item of a multiple choices list", () => {
         shouldFocus(
           {type: "array", items: {type: "string", enum: ["foo", "bar"]}, uniqueItems: true},
           {"ui:widget": "checkboxes", "ui:autofocus": true},
+          div,
           "input",
           ["bar"]
         );
@@ -435,15 +447,15 @@ describe("uiSchema", () => {
 
     describe("boolean", () => {
       it("should focus on checkbox input", () => {
-        shouldFocus({type: "boolean"}, {"ui:autofocus": true});
+        shouldFocus({type: "boolean"}, {"ui:autofocus": true}, div);
       });
 
       it("should focus on radio input", () => {
-        shouldFocus({type: "boolean"}, {"ui:widget": "radio", "ui:autofocus": true});
+        shouldFocus({type: "boolean"}, {"ui:widget": "radio", "ui:autofocus": true}, div);
       });
 
       it("should focus on select input", () => {
-        shouldFocus({type: "boolean"}, {"ui:widget": "select", "ui:autofocus": true}, "select");
+        shouldFocus({type: "boolean"}, {"ui:widget": "select", "ui:autofocus": true}, div, "select");
       });
     });
   });
@@ -780,11 +792,11 @@ describe("uiSchema", () => {
 
       it("should support formData", () => {
         const {node} = createFormComponent({schema, uiSchema, formData: {
-          foo: 3.14
+          foo: 11
         }});
 
         expect(node.querySelector("[type=range]").value)
-          .eql("3.14");
+          .eql("11");
       });
 
       it("should update state when value is updated", () => {

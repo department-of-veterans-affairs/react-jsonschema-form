@@ -356,9 +356,8 @@ describe("StringField", () => {
         target: {value: newDatetime}
       });
 
-      expect(node.querySelector("[type=datetime-local]").value)
-        // XXX import and use conversion helper
-        .eql(newDatetime.slice(0, 19));
+      expect(parseDateString(node.querySelector("[type=datetime-local]").value))
+        .eql(parseDateString(newDatetime.slice(0, 19)));
     });
 
     it("should fill field with data", () => {

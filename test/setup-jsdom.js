@@ -1,10 +1,13 @@
 var jsdom = require("jsdom");
+const {JSDOM} = jsdom;
 
 // Setup the jsdom environment
 // @see https://github.com/facebook/react/issues/5046
 if (!global.hasOwnProperty("window")) {
-  global.document = jsdom.jsdom("<!doctype html><html><body></body></html>");
-  global.window = document.defaultView;
+  const dom = new JSDOM("<!doctype html><html><body></body></html>", {pretendToBeVisual: true});
+  global.dom = dom;
+  global.window = dom.window;
+  global.document = dom.window.document;
   global.navigator = global.window.navigator;
 }
 

@@ -2,6 +2,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import React from "react";
+import * as ReactDom from "react-dom";
 import {renderIntoDocument, Simulate} from "react-dom/test-utils";
 import {findDOMNode} from "react-dom";
 
@@ -166,11 +167,14 @@ describe("Form", () => {
   describe("Custom submit buttons", () => {
     it("should submit the form when clicked", () => {
       const onSubmit = sandbox.spy();
-      const comp = renderIntoDocument(
+      let el = window.document.createElement("div");
+      window.document.body.appendChild(el);
+      const comp = ReactDom.render(
         <Form onSubmit={ onSubmit } onChange={f => f} schema={ {} }>
           <button type="submit">Submit</button>
           <button type="submit">Another submit</button>
-        </Form>
+        </Form>,
+        el
       );
       const node = findDOMNode(comp);
       const buttons = node.querySelectorAll("button[type=submit]");
