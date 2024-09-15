@@ -72,17 +72,16 @@ class ObjectField extends Component {
     return (
       <fieldset>
         {title ? <TitleField
-                   id={`${idSchema.$id}__title`}
-                   title={title}
-                   required={required}
-                   formContext={formContext}/> : null}
+          id={`${idSchema.$id}__title`}
+          title={title}
+          required={required}
+          formContext={formContext}/> : null}
         {schema.description ?
           <DescriptionField
             id={`${idSchema.$id}__description`}
             description={schema.description}
             formContext={formContext}/> : null}
-        {
-        orderedProperties.map((name, index) => {
+        {orderedProperties.map((name, index) => {
           return (
             <SchemaField key={index}
               name={name}
@@ -98,8 +97,8 @@ class ObjectField extends Component {
               disabled={disabled}
               readonly={readonly}/>
           );
-        })
-      }</fieldset>
+        })}
+      </fieldset>
     );
   }
 }

@@ -292,11 +292,11 @@ describe("uiSchema", () => {
       };
 
       const CustomWidget = (props) => {
-        const {value, options} = props;
+        const options = props.options;
         const {enumOptions, className} = options;
         return (
           <select className={className}>{
-            enumOptions.map(({label, value}, i) => <option key={i}>{value}</option>)
+            enumOptions.map((option, i) => <option key={i}>{option.value}</option>)
           }</select>
         );
       };
@@ -1255,7 +1255,7 @@ describe("uiSchema", () => {
       const {node} = createFormComponent({schema, uiSchema});
 
       const ids = [].map.call(node.querySelectorAll("input[type=text]"),
-                              node => node.id);
+        node => node.id);
       expect(ids).eql(["myform_foo", "myform_bar"]);
     });
 
@@ -1271,7 +1271,7 @@ describe("uiSchema", () => {
       ]});
 
       const ids = [].map.call(node.querySelectorAll("input[type=text]"),
-                              node => node.id);
+        node => node.id);
       expect(ids).eql(["myform_0", "myform_1"]);
     });
 
@@ -1293,7 +1293,7 @@ describe("uiSchema", () => {
       ]});
 
       const ids = [].map.call(node.querySelectorAll("input[type=text]"),
-                              node => node.id);
+        node => node.id);
       expect(ids).eql([
         "myform_0_foo",
         "myform_0_bar",
@@ -1319,7 +1319,7 @@ describe("uiSchema", () => {
 
         it("should disable an ArrayField", () => {
           const disabled = [].map.call(node.querySelectorAll("[type=text]"),
-                                       node => node.disabled);
+            node => node.disabled);
           expect(disabled).eql([true, true]);
         });
 
@@ -1353,7 +1353,7 @@ describe("uiSchema", () => {
 
         it("should disable an ObjectField", () => {
           const disabled = [].map.call(node.querySelectorAll("[type=text]"),
-                                       node => node.disabled);
+            node => node.disabled);
           expect(disabled).eql([true, true]);
         });
       });
@@ -1367,8 +1367,8 @@ describe("uiSchema", () => {
 
       it("should disable a text widget", () => {
         shouldBeDisabled("input[type=text]",
-                         {type: "string"},
-                         {"ui:disabled": true});
+          {type: "string"},
+          {"ui:disabled": true});
       });
 
       it("should disabled a file widget", () => {
@@ -1381,74 +1381,74 @@ describe("uiSchema", () => {
 
       it("should disable a textarea widget", () => {
         shouldBeDisabled("textarea",
-                         {type: "string"},
-                         {"ui:disabled": true, "ui:widget": "textarea"});
+          {type: "string"},
+          {"ui:disabled": true, "ui:widget": "textarea"});
       });
 
       it("should disable a number text widget", () => {
         shouldBeDisabled("input[type=text]",
-                         {type: "number"},
-                         {"ui:disabled": true});
+          {type: "number"},
+          {"ui:disabled": true});
       });
 
       it("should disable a number widget", () => {
         shouldBeDisabled("input[type=number]",
-                         {type: "number"},
-                         {"ui:disabled": true, "ui:widget": "updown"});
+          {type: "number"},
+          {"ui:disabled": true, "ui:widget": "updown"});
       });
 
       it("should disable a range widget", () => {
         shouldBeDisabled("input[type=range]",
-                         {type: "number"},
-                         {"ui:disabled": true, "ui:widget": "range"});
+          {type: "number"},
+          {"ui:disabled": true, "ui:widget": "range"});
       });
 
       it("should disable a select widget", () => {
         shouldBeDisabled("select",
-                         {type: "string", enum: ["a", "b"]},
-                         {"ui:disabled": true});
+          {type: "string", enum: ["a", "b"]},
+          {"ui:disabled": true});
       });
 
       it("should disable a checkbox widget", () => {
         shouldBeDisabled("input[type=checkbox]",
-                         {type: "boolean"},
-                         {"ui:disabled": true});
+          {type: "boolean"},
+          {"ui:disabled": true});
       });
 
       it("should disable a radio widget", () => {
         shouldBeDisabled("input[type=radio]",
-                         {type: "boolean"},
-                         {"ui:disabled": true, "ui:widget": "radio"});
+          {type: "boolean"},
+          {"ui:disabled": true, "ui:widget": "radio"});
       });
 
       it("should disable a color widget", () => {
         shouldBeDisabled("input[type=color]",
-                         {type: "string", format: "color"},
-                         {"ui:disabled": true});
+          {type: "string", format: "color"},
+          {"ui:disabled": true});
       });
 
       it("should disable a password widget", () => {
         shouldBeDisabled("input[type=password]",
-                         {type: "string"},
-                         {"ui:disabled": true, "ui:widget": "password"});
+          {type: "string"},
+          {"ui:disabled": true, "ui:widget": "password"});
       });
 
       it("should disable an email widget", () => {
         shouldBeDisabled("input[type=email]",
-                         {type: "string", format: "email"},
-                         {"ui:disabled": true});
+          {type: "string", format: "email"},
+          {"ui:disabled": true});
       });
 
       it("should disable a date widget", () => {
         shouldBeDisabled("input[type=date]",
-                         {type: "string", format: "date"},
-                         {"ui:disabled": true});
+          {type: "string", format: "date"},
+          {"ui:disabled": true});
       });
 
       it("should disable a datetime widget", () => {
         shouldBeDisabled("input[type=datetime-local]",
-                         {type: "string", format: "date-time"},
-                         {"ui:disabled": true});
+          {type: "string", format: "date-time"},
+          {"ui:disabled": true});
       });
 
       it("should disable an alternative date widget", () => {
@@ -1458,7 +1458,7 @@ describe("uiSchema", () => {
         });
 
         const disabled = [].map.call(node.querySelectorAll("select"),
-                                     node => node.disabled);
+          node => node.disabled);
         expect(disabled).eql([true, true, true]);
       });
 
@@ -1469,7 +1469,7 @@ describe("uiSchema", () => {
         });
 
         const disabled = [].map.call(node.querySelectorAll("select"),
-                                     node => node.disabled);
+          node => node.disabled);
         expect(disabled).eql([true, true, true, true, true, true]);
       });
     });
@@ -1491,7 +1491,7 @@ describe("uiSchema", () => {
 
         it("should mark as readonly an ArrayField", () => {
           const disabled = [].map.call(node.querySelectorAll("[type=text]"),
-                                       node => node.hasAttribute("readonly"));
+            node => node.hasAttribute("readonly"));
           expect(disabled).eql([true, true]);
         });
 
@@ -1525,7 +1525,7 @@ describe("uiSchema", () => {
 
         it("should mark as readonly an ObjectField", () => {
           const disabled = [].map.call(node.querySelectorAll("[type=text]"),
-                                       node => node.hasAttribute("readonly"));
+            node => node.hasAttribute("readonly"));
           expect(disabled).eql([true, true]);
         });
       });
@@ -1540,8 +1540,8 @@ describe("uiSchema", () => {
 
       it("should mark as readonly a text widget", () => {
         shouldBeReadonly("input[type=text]",
-                         {type: "string"},
-                         {"ui:readonly": true});
+          {type: "string"},
+          {"ui:readonly": true});
       });
 
       it("should mark as readonly a file widget", () => {
@@ -1555,68 +1555,68 @@ describe("uiSchema", () => {
 
       it("should mark as readonly a textarea widget", () => {
         shouldBeReadonly("textarea",
-                         {type: "string"},
-                         {"ui:readonly": true, "ui:widget": "textarea"});
+          {type: "string"},
+          {"ui:readonly": true, "ui:widget": "textarea"});
       });
 
       it("should mark as readonly a number text widget", () => {
         shouldBeReadonly("input[type=text]",
-                         {type: "number"},
-                         {"ui:readonly": true});
+          {type: "number"},
+          {"ui:readonly": true});
       });
 
       it("should mark as readonly a number widget", () => {
         shouldBeReadonly("input[type=number]",
-                         {type: "number"},
-                         {"ui:readonly": true, "ui:widget": "updown"});
+          {type: "number"},
+          {"ui:readonly": true, "ui:widget": "updown"});
       });
 
       it("should mark as readonly a range widget", () => {
         shouldBeReadonly("input[type=range]",
-                         {type: "number"},
-                         {"ui:readonly": true, "ui:widget": "range"});
+          {type: "number"},
+          {"ui:readonly": true, "ui:widget": "range"});
       });
 
       it("should mark as readonly a select widget", () => {
         shouldBeReadonly("select",
-                         {type: "string", enum: ["a", "b"]},
-                         {"ui:readonly": true});
+          {type: "string", enum: ["a", "b"]},
+          {"ui:readonly": true});
       });
 
       it("should mark as readonly a color widget", () => {
         shouldBeReadonly("input[type=color]",
-                         {type: "string", format: "color"},
-                         {"ui:readonly": true});
+          {type: "string", format: "color"},
+          {"ui:readonly": true});
       });
 
       it("should mark as readonly a password widget", () => {
         shouldBeReadonly("input[type=password]",
-                         {type: "string"},
-                         {"ui:readonly": true, "ui:widget": "password"});
+          {type: "string"},
+          {"ui:readonly": true, "ui:widget": "password"});
       });
 
       it("should mark as readonly a url widget", () => {
         shouldBeReadonly("input[type=url]",
-                         {type: "string", format: "uri"},
-                         {"ui:readonly": true});
+          {type: "string", format: "uri"},
+          {"ui:readonly": true});
       });
 
       it("should mark as readonly an email widget", () => {
         shouldBeReadonly("input[type=email]",
-                         {type: "string", format: "email"},
-                         {"ui:readonly": true});
+          {type: "string", format: "email"},
+          {"ui:readonly": true});
       });
 
       it("should mark as readonly a date widget", () => {
         shouldBeReadonly("input[type=date]",
-                         {type: "string", format: "date"},
-                         {"ui:readonly": true});
+          {type: "string", format: "date"},
+          {"ui:readonly": true});
       });
 
       it("should mark as readonly a datetime widget", () => {
         shouldBeReadonly("input[type=datetime-local]",
-                         {type: "string", format: "date-time"},
-                         {"ui:readonly": true});
+          {type: "string", format: "date-time"},
+          {"ui:readonly": true});
       });
 
       it("should mark as readonly an alternative date widget", () => {
@@ -1626,7 +1626,7 @@ describe("uiSchema", () => {
         });
 
         const readonly = [].map.call(node.querySelectorAll("select"),
-                                     node => node.hasAttribute("readonly"));
+          node => node.hasAttribute("readonly"));
         expect(readonly).eql([true, true, true]);
       });
 
@@ -1637,7 +1637,7 @@ describe("uiSchema", () => {
         });
 
         const readonly = [].map.call(node.querySelectorAll("select"),
-                                     node => node.hasAttribute("readonly"));
+          node => node.hasAttribute("readonly"));
         expect(readonly).eql([true, true, true, true, true, true]);
       });
     });

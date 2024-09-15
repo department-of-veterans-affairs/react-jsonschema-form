@@ -403,7 +403,7 @@ export function toIdSchema(schema, id, definitions = {}, idSuffix = "") {
     return idSchema;
   }
 
-  for (const name in schema.properties || {}) {
+  for (const name in schema.properties || {}) { //eslint-disable-line no-unused-vars
     const field = schema.properties[name];
     const fieldId = `${idSchema.$id}_${name}${idSuffix}`;
     idSchema[name] = toIdSchema(field, fieldId, definitions, idSuffix);

@@ -609,7 +609,7 @@ describe("StringField", () => {
       }, uiSchema});
 
       const lengths = [].map.call(node.querySelectorAll("select"),
-                                  node => node.length);
+        node => node.length);
 
       expect(lengths).eql([
         121 + 1, // from 1900 to 2020 + undefined
@@ -647,7 +647,7 @@ describe("StringField", () => {
         }, uiSchema});
 
         const buttonLabels = [].map.call(node.querySelectorAll("a.btn"),
-                                         x => x.textContent);
+          x => x.textContent);
         expect(buttonLabels).eql(["Now", "Clear"]);
       });
 
@@ -796,7 +796,7 @@ describe("StringField", () => {
       }, uiSchema});
 
       const lengths = [].map.call(node.querySelectorAll("select"),
-                                  node => node.length);
+        node => node.length);
 
       expect(lengths).eql([
         121 + 1, // from 1900 to 2020 + undefined
@@ -841,7 +841,7 @@ describe("StringField", () => {
         }, uiSchema});
 
         const buttonLabels = [].map.call(node.querySelectorAll("a.btn"),
-                                         x => x.textContent);
+          x => x.textContent);
         expect(buttonLabels).eql(["Now", "Clear"]);
       });
 

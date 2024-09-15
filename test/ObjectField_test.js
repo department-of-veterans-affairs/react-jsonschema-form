@@ -60,7 +60,7 @@ describe("ObjectField", () => {
         TitleField: CustomTitleField
       }});
       expect(node.querySelector("fieldset > #custom").textContent)
-      .to.eql("my object");
+        .to.eql("my object");
     });
 
     it("should render a customized description", () => {
@@ -68,7 +68,7 @@ describe("ObjectField", () => {
 
       const {node} = createFormComponent({schema, fields: {DescriptionField: CustomDescriptionField}});
       expect(node.querySelector("fieldset > #custom").textContent)
-      .to.eql("my description");
+        .to.eql("my description");
     });
 
     it("should render a default property label", () => {

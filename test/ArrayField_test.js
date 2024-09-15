@@ -407,7 +407,7 @@ describe("ArrayField", () => {
         const {node} = createFormComponent({schema, uiSchema});
 
         const labels = [].map.call(node.querySelectorAll(".checkbox label"),
-                                   node => node.textContent);
+          node => node.textContent);
         expect(labels).eql(["foo", "bar", "fuzz"]);
       });
 
@@ -432,7 +432,7 @@ describe("ArrayField", () => {
         });
 
         const labels = [].map.call(node.querySelectorAll("[type=checkbox]"),
-                                   node => node.checked);
+          node => node.checked);
         expect(labels).eql([true, false, true]);
       });
 
@@ -608,7 +608,7 @@ describe("ArrayField", () => {
       const {node} = createFormComponent({schema});
 
       expect(node.querySelectorAll("fieldset"))
-          .to.have.length.of(1);
+        .to.have.length.of(1);
     });
 
     it("should render a fieldset legend", () => {
