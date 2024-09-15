@@ -3,8 +3,8 @@
 
 import React from "react";
 import sinon from "sinon";
-import {renderIntoDocument, findRenderedComponentWithType} from "react-dom/test-utils";
-import {findDOMNode, render} from "react-dom";
+import {findRenderedComponentWithType} from "react-dom/test-utils";
+import * as ReactDom from "react-dom";
 
 import Form from "../src";
 
@@ -33,16 +33,20 @@ class FormDataStateWrapper extends React.Component {
   }
 }
 
-export function createComponent(Component, props) {
-  const comp = renderIntoDocument(<Component {...props}/>);
-  const node = findDOMNode(comp);
+export function createComponent(Component, props, el = null) {
+  if (!el) {
+    el = window.document.createElement("div");
+    window.document.body.appendChild(el);
+  }
+  const comp = ReactDom.render(<Component {...props}/>, el);
+  const node = ReactDom.findDOMNode(comp);
   return {comp, node};
 }
 
-export function createFormComponent(props) {
-  const {comp} = createComponent(FormDataStateWrapper, {formProps: props});
+export function createFormComponent(props, el) {
+  const {comp} = createComponent(FormDataStateWrapper, {formProps: props}, el);
   const formComp = findRenderedComponentWithType(comp, Form);
-  const formNode = findDOMNode(formComp);
+  const formNode = ReactDom.findDOMNode(formComp);
   return {comp: formComp, node: formNode};
 }
 
@@ -62,8 +66,8 @@ export function createSandboxUnstrict() {
 }
 
 export function setProps(comp, newProps) {
-  const node = findDOMNode(comp);
-  render(
+  const node = ReactDom.findDOMNode(comp);
+  ReactDom.render(
     React.createElement(
       comp.constructor,
       newProps
