@@ -510,10 +510,12 @@ describe("ArrayField", () => {
       });
 
       return new Promise(setImmediate)
-        .then(() => expect(comp.state.formData).eql([
-          "data:text/plain;name=file1.txt;base64,x=",
-          "data:text/plain;name=file2.txt;base64,x=",
-        ]));
+        .then(() => {
+          expect(comp.state.formData).eql([
+            "data:text/plain;name=file1.txt;base64,x=",
+            "data:text/plain;name=file2.txt;base64,x=",
+          ])
+        });
     });
 
     it("should fill field with data", () => {

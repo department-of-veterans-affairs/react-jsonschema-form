@@ -2,12 +2,12 @@ import React from "react";
 import {expect} from "chai";
 import {Simulate} from "react-dom/test-utils";
 
+import {createFormComponent, createSandbox} from "./test_utils";
+import {getDefaultRegistry} from "../src/utils";
+
 import SchemaField from "../src/components/fields/SchemaField";
 import TitleField from "../src/components/fields/TitleField";
 import DescriptionField from "../src/components/fields/DescriptionField";
-
-import {createFormComponent, createSandbox} from "./test_utils";
-import {getDefaultRegistry} from "../src/utils";
 
 
 describe("SchemaField", () => {
