@@ -71,12 +71,13 @@ export default class Form extends Component {
 
   renderErrors() {
     const {status, errors} = this.state;
-    const {showErrorList, CustomErrorList} = this.props;
+    const {showErrorList, CustomErrorList, formContext = {}} = this.props;
+    const submitted = formContext && formContext.submitted || false;
 
     if (
       showErrorList != false &&
       status !== "editing" &&
-      this.props.formContext.submitted &&
+      submitted &&
       errors.length
     ) {
       return (CustomErrorList && <CustomErrorList errors={errors}/>) ||

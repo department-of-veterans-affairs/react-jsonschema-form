@@ -86,11 +86,11 @@ describe("Validation", () => {
             __errors: ["err5"]
           }
         })).eql([
-          {stack: "root: err1"},
-          {stack: "root: err2"},
-          {stack: "b: err3"},
-          {stack: "b: err4"},
-          {stack: "c: err5"},
+          {stack: "root: err1", fieldName: "root", fieldPath: ["root"], error: "err1"},
+          {stack: "root: err2", fieldName: "root", fieldPath: ["root"], error: "err2"},
+          {stack: "b: err3", fieldName: "b", fieldPath: ["root", "a", "b"], error: "err3"},
+          {stack: "b: err4", fieldName: "b", fieldPath: ["root", "a", "b"], error: "err4"},
+          {stack: "c: err5", fieldName: "c", fieldPath: ["root", "c"], error: "err5"},
         ]);
       });
     });
@@ -148,9 +148,12 @@ describe("Validation", () => {
 
         beforeEach(() => {
           onError = sandbox.spy();
-          const compInfo = createFormComponent({schema, formData: {
-            foo: undefined
-          }, onError});
+          const compInfo = createFormComponent({
+            schema,
+            formData: {foo: undefined},
+            onError,
+            formContext: {submitted: true}
+          });
           comp = compInfo.comp;
           node = compInfo.node;
 
@@ -194,9 +197,12 @@ describe("Validation", () => {
 
         beforeEach(() => {
           onError = sandbox.spy();
-          const compInfo = createFormComponent({schema, formData: {
-            foo: "123456789"
-          }, onError});
+          const compInfo = createFormComponent({
+            schema,
+            formData: {foo: "123456789"},
+            onError,
+            formContext: {submitted: true}
+          });
           comp = compInfo.comp;
           node = compInfo.node;
 
