@@ -44,7 +44,7 @@ function toErrorSchema(errors) {
   }, {});
 }
 
-export function toErrorList(errorSchema, fieldName = "root", fieldPath) {
+export function toErrorList(errorSchema, fieldName = "root", fieldPath = ["root"]) {
   // XXX: We should transform fieldName as a full field path string.
   let errorList = [];
   if ("__errors" in errorSchema) {
@@ -116,7 +116,7 @@ export default function validateFormData(formData, schema, customValidate, trans
   // XXX: The errors list produced is not fully compliant with the format
   // exposed by the jsonschema lib, which contains full field paths and other
   // properties.
-  const newErrors = toErrorList(newErrorSchema, "root", ["root"]);
+  const newErrors = toErrorList(newErrorSchema);
 
   return {errors: newErrors, errorSchema: newErrorSchema};
 }
