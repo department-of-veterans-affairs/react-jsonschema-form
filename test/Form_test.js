@@ -74,6 +74,14 @@ describe("Form", () => {
 
     const formData = {foo: "invalid"};
 
+    // optional
+    const getFormData = () => {
+      return {
+        foo: "invalid",
+        other: true
+      };
+    };
+
     function FieldTemplate(props) {
       const {
         id,
@@ -116,6 +124,7 @@ describe("Form", () => {
         schema,
         uiSchema,
         formData,
+        getFormData,
         FieldTemplate,
         liveValidate: true,
       }).node;

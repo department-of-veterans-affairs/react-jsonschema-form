@@ -989,6 +989,8 @@ A field component will always be passed the following props:
  - `registry`: A [registry](#the-registry-object) object (read next).
  - `formContext`: A [formContext](#the-formcontext-object) object (read next next).
 
+Additionally, a custom field can accept `getFormData` prop if you pass it to the `Form`. Useful if you need more than just the current field data.
+
 #### The `registry` object
 
 The `registry` is an object containing the registered custom fields and widgets as well as root schema definitions.
