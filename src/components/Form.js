@@ -147,7 +147,8 @@ export default class Form extends Component {
       autocomplete,
       enctype,
       acceptcharset,
-      noHtml5Validate
+      noHtml5Validate,
+      getFormData,
     } = this.props;
 
     const {schema, uiSchema, formData, errorSchema, idSchema} = this.state;
@@ -173,6 +174,7 @@ export default class Form extends Component {
           errorSchema={errorSchema}
           idSchema={idSchema}
           formData={formData}
+          getFormData={getFormData}
           onChange={this.onChange}
           onBlur={this.onBlur}
           registry={registry}
@@ -188,35 +190,36 @@ export default class Form extends Component {
 
 if (process.env.NODE_ENV !== "production") {
   Form.propTypes = {
-    schema: PropTypes.object.isRequired,
-    uiSchema: PropTypes.object,
+    acceptcharset: PropTypes.string,
+    action: PropTypes.string,
+    ArrayFieldTemplate: PropTypes.func,
+    autocomplete: PropTypes.string,
+    className: PropTypes.string,
+    enctype: PropTypes.string,
+    fields: PropTypes.objectOf(PropTypes.func),
+    FieldTemplate: PropTypes.func,
+    formContext: PropTypes.object,
     formData: PropTypes.any,
+    getFormData: PropTypes.func,
+    id: PropTypes.string,
+    liveValidate: PropTypes.bool,
+    method: PropTypes.string,
+    name: PropTypes.string,
+    noHtml5Validate: PropTypes.bool,
+    noValidate: PropTypes.bool,
+    onChange: PropTypes.func.isRequired,
+    onError: PropTypes.func,
+    onSubmit: PropTypes.func,
+    safeRenderCompletion: PropTypes.bool,
+    schema: PropTypes.object.isRequired,
+    showErrorList: PropTypes.bool,
+    target: PropTypes.string,
+    transformErrors: PropTypes.func,
+    uiSchema: PropTypes.object,
+    validate: PropTypes.func,
     widgets: PropTypes.objectOf(PropTypes.oneOfType([
       PropTypes.func,
       PropTypes.object,
     ])),
-    fields: PropTypes.objectOf(PropTypes.func),
-    ArrayFieldTemplate: PropTypes.func,
-    FieldTemplate: PropTypes.func,
-    onChange: PropTypes.func.isRequired,
-    onError: PropTypes.func,
-    showErrorList: PropTypes.bool,
-    onSubmit: PropTypes.func,
-    id: PropTypes.string,
-    className: PropTypes.string,
-    name: PropTypes.string,
-    method: PropTypes.string,
-    target: PropTypes.string,
-    action: PropTypes.string,
-    autocomplete: PropTypes.string,
-    enctype: PropTypes.string,
-    acceptcharset: PropTypes.string,
-    noValidate: PropTypes.bool,
-    noHtml5Validate: PropTypes.bool,
-    liveValidate: PropTypes.bool,
-    validate: PropTypes.func,
-    transformErrors: PropTypes.func,
-    safeRenderCompletion: PropTypes.bool,
-    formContext: PropTypes.object,
   };
 }
