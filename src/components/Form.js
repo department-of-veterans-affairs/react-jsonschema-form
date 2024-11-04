@@ -147,7 +147,8 @@ export default class Form extends Component {
       autocomplete,
       enctype,
       acceptcharset,
-      noHtml5Validate
+      noHtml5Validate,
+      getFormData,
     } = this.props;
 
     const {schema, uiSchema, formData, errorSchema, idSchema} = this.state;
@@ -173,6 +174,7 @@ export default class Form extends Component {
           errorSchema={errorSchema}
           idSchema={idSchema}
           formData={formData}
+          getFormData={getFormData}
           onChange={this.onChange}
           onBlur={this.onBlur}
           registry={registry}
@@ -218,5 +220,6 @@ if (process.env.NODE_ENV !== "production") {
     transformErrors: PropTypes.func,
     safeRenderCompletion: PropTypes.bool,
     formContext: PropTypes.object,
+    getFormData: PropTypes.func,
   };
 }
